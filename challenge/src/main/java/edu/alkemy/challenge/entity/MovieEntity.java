@@ -41,7 +41,7 @@ public class MovieEntity {
     private boolean deleted = Boolean.FALSE;
 
     @ManyToMany(cascade = {PERSIST, MERGE})
-    @JoinTable(name = "movie_characters",
+    @JoinTable(name = "movie_character",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "character_id")
     )
