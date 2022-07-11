@@ -15,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "characters")
+@Table(name = "character")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class CharacterEntity {
     @Id
