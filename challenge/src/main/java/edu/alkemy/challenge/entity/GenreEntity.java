@@ -23,10 +23,14 @@ public class GenreEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id; // Integer
 
-    @Column(name = "genre_name")
+
     private String name;
 
-    @Column(name = "genre_image")
+
     private String image;
+
+    @OneToMany(fetch = FetchType.EAGER,cascade = ALL)
+    @JoinColumn(name = "movie_id")
+    private List<MovieEntity> movie;
 
 }

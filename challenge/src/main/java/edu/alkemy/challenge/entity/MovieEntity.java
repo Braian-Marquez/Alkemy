@@ -18,29 +18,25 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "movies")
+@Table(name = "movie")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class MovieEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "movie_image")
+
     private String image;
 
-    @Column(name = "movie_title")
+
     private String title;
 
     @Column(name = "movie_year")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate creationDate;
 
-    @Column(name = "movie_rate")
-    private Integer rate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "genre_id")
-    private GenreEntity genre;
+    private Integer rate;
 
     private boolean deleted = Boolean.FALSE;
 
@@ -50,4 +46,23 @@ public class MovieEntity {
             inverseJoinColumns = @JoinColumn(name = "character_id")
     )
     private Set<CharacterEntity> characters = new HashSet<>();
+
+    public void addCharacter(CharacterEntity characterEntity) {
+        characters.add(characterEntity);
+    }
+
+    public void removeCharacter(CharacterEntity characterEntity) {
+        characters.remove(characterEntity);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final MovieEntity other = (MovieEntity) obj;
+        return other.id == this.id;
+
+    }
 }
