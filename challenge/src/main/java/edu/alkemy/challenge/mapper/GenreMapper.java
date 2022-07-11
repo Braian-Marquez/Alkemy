@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component /*Enu*/
+@Component
 public class GenreMapper {
 
     public GenreEntity genreDTO2Entity (GenreDTO dto){

@@ -3,21 +3,25 @@ package edu.alkemy.challenge.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
+@Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE movie SET deleted = true WHERE id = ?")
 @Table(name = "movie")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class MovieEntity {
@@ -47,13 +51,9 @@ public class MovieEntity {
     )
     private Set<CharacterEntity> characters = new HashSet<>();
 
-    public void addCharacter(CharacterEntity characterEntity) {
-        characters.add(characterEntity);
-    }
-
-    public void removeCharacter(CharacterEntity characterEntity) {
-        characters.remove(characterEntity);
-    }
+    @OneToMany(fetch = FetchType.EAGER, cascade = ALL)
+    @JoinColumn(name = "genre_id")
+    private GenreEntity genre;
 
     @Override
     public boolean equals(Object obj) {

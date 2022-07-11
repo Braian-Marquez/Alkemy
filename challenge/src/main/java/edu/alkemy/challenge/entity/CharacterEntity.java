@@ -3,6 +3,8 @@ package edu.alkemy.challenge.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity
 @NoArgsConstructor
+@Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE character SET deleted = true WHERE id = ?")
 @Table(name = "characters")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class CharacterEntity {
@@ -41,5 +45,11 @@ public class CharacterEntity {
 
     @ManyToMany(mappedBy = "characters", cascade = ALL)
     private List<MovieEntity> movies = new ArrayList<>();
+    public void addCharacter(MovieEntity movieEntity) {
+        movies.add(movieEntity);
+    }
 
+    public void removeCharacter(MovieEntity movieEntity) {
+        movies.remove(movieEntity);
+    }
 }
