@@ -1,10 +1,12 @@
 package edu.alkemy.challenge.service.impl;
 import edu.alkemy.challenge.dto.CharacterBasicDTO;
 import edu.alkemy.challenge.dto.CharacterDTO;
+import edu.alkemy.challenge.dto.CharacterFilterDTO;
 import edu.alkemy.challenge.entity.CharacterEntity;
 import edu.alkemy.challenge.exception.ParamNotFoundException;
 import edu.alkemy.challenge.mapper.CharacterMapper;
 import edu.alkemy.challenge.repository.CharacterRepository;
+import edu.alkemy.challenge.repository.specification.CharacterSpecification;
 import edu.alkemy.challenge.service.CharacterService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ public class CharacterServiceImpl implements CharacterService {
 
     private CharacterMapper characterMapper;
     private CharacterRepository characterRepository;
+    private CharacterSpecification characterSpecification;
 
     @Autowired
     public CharacterServiceImpl(CharacterMapper characterMapper,
@@ -70,6 +73,15 @@ public class CharacterServiceImpl implements CharacterService {
         List<CharacterEntity> entities = characterRepository.findAll();
 
         return this.characterMapper.characterEntitySet2BasicDTOList(entities);
+    }
+
+    public List<CharacterDTO> findByParam(String name, Integer age, Long weight,
+                                                     Long id, List<Long> movies, String order ) {
+        CharacterFilterDTO filter = new CharacterFilterDTO(name, age, weight, id,movies, order);
+        List<CharacterEntity> entity = characterRepository.findAll(characterSpecification.getByFilters(filter));
+        List<CharacterDTO> dto = characterMapper.characterEntitySet2DTOList(entity, true);
+
+        return dto;
     }
 
 }
