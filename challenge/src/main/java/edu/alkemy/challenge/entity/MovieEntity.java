@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
@@ -51,7 +51,7 @@ public class MovieEntity {
     )
     private Set<CharacterEntity> characters = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = ALL)
     @JoinColumn(name = "genre_id")
     private GenreEntity genre;
 
@@ -64,5 +64,13 @@ public class MovieEntity {
         final MovieEntity other = (MovieEntity) obj;
         return other.id == this.id;
 
+    }
+
+    public void addCharacter(CharacterEntity character) {
+        this.characters.add(character);
+    }
+
+    public void deleteCharacter(CharacterEntity character) {
+        this.characters.remove(character);
     }
 }
