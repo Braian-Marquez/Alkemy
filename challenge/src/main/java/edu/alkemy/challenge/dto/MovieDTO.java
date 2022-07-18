@@ -2,6 +2,7 @@ package edu.alkemy.challenge.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,6 +16,6 @@ public class MovieDTO {
     private Integer rate;
     private List<CharacterDTO> characters;
     private Long genreId;
-
+    private List<MovieDTO> movies = new ArrayList<>();
 
 }

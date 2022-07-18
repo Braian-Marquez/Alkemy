@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -43,7 +42,7 @@ public class CharacterEntity {
 
     private boolean deleted = Boolean.FALSE;
 
-    @ManyToMany(mappedBy = "characters", cascade = ALL)
+    @ManyToMany(mappedBy = "characters")
     private List<MovieEntity> movies = new ArrayList<>();
     public void addCharacter(MovieEntity movieEntity) {
         movies.add(movieEntity);

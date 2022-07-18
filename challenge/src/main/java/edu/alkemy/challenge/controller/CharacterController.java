@@ -35,19 +35,17 @@ public class CharacterController {
         return ResponseEntity.ok().body(characterDTO);
     }
 
-    @GetMapping
-    public ResponseEntity<List<CharacterDTO>> listCharacterFilter(
+    @GetMapping("/filter")
+    public ResponseEntity<List<CharacterDTO>> getByFilters(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Integer age,
+            @RequestParam(required = false) Long age,
             @RequestParam(required = false) Long weight,
-            @RequestParam(required = false) Long id,
-            @RequestParam(required = false) List<Long> movies,
-            @RequestParam(required = false, defaultValue = "ASC") String order) {
-
-
-        List<CharacterDTO> dto = characterService.findByParam(name, age, weight, id, movies, order);
-        return ResponseEntity.ok(dto);
+            @RequestParam(required = false) List<Long> movies
+    ) {
+        List<CharacterDTO> dtos = this.characterService.getByFilters(name, age, weight, movies);
+        return ResponseEntity.ok(dtos);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<CharacterDTO> edit(@PathVariable Long id, @RequestBody CharacterDTO dto) {

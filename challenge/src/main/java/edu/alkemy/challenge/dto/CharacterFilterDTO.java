@@ -11,27 +11,16 @@ import java.util.List;
 
 public class CharacterFilterDTO {
     private String name;
-    private Integer age;
-    private Long weight;
-    private Long id;
-    private String order;
+    private Long age;
+    private Long weight ;
     private List<Long> movies;
 
-
-    public CharacterFilterDTO (String name, Integer age, Long weight, Long id, List<Long> movies, String order ) {
+    public CharacterFilterDTO(String name, Long age, Long weight, List<Long> movies) {
         this.name = name;
         this.age = age;
         this.weight = weight;
-        this.id = id;
         this.movies = movies;
-        this.order = order;
-
-    }
-    public boolean isASC(){
-        return this.order.compareToIgnoreCase("ASC")==0;
     }
 
-    public boolean isDESC() {
-        return this.order.compareToIgnoreCase("DESC") == 0;
-    }
+
 }

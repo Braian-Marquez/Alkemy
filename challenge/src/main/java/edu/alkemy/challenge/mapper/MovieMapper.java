@@ -119,17 +119,6 @@ public class MovieMapper {
         return movieDTOS;
     }
 
-    public Set<MovieEntity> dtoSet2EntitySet(Set<MovieDTO> dtoSet,
-                                             boolean loadCharacters) {
-
-        Set<MovieEntity> entitySet = new HashSet<>();
-
-        for (MovieDTO dto : dtoSet){
-            entitySet.add(this.movieDTO2Entity(dto));
-        }
-
-        return entitySet;
-    }
 
     public MovieEntity movieEntityRefreshValues(MovieEntity movieEntity,
                                              MovieDTO movieDTO) {

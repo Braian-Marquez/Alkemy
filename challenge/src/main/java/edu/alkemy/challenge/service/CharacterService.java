@@ -13,8 +13,8 @@ public interface CharacterService {
     void delete(@NonNull Long id);
     List<CharacterBasicDTO> getAll();
     CharacterDTO findById(@NonNull Long id);
-    List<CharacterDTO> findByParam(String name, Integer age,Long weight, Long id,
-                                              List<Long> movies, String order);
+    List<CharacterDTO> getByFilters(String name, Long age, Long weight, List<Long> movies);
+
 
 
 }
