@@ -44,17 +44,12 @@ public class CharacterSpecification {
 
             if(!CollectionUtils.isEmpty(filterDto.getMovies())){
                 Join<MovieEntity, CharacterEntity> join= root.join("movies", JoinType.INNER);
-                Expression<String> peliculasId= join.get("id");
-                predicates.add(peliculasId.in(filterDto.getMovies()));
+                Expression<String> moviesId= join.get("id");
+                predicates.add(moviesId.in(filterDto.getMovies()));
             };
             query.distinct(true);
 
-            String orderByField="order";
-            query.orderBy(
-                    filterDto.isASC()?
-                            criteriaBuilder.asc(root.get(orderByField)):
-                            criteriaBuilder.desc(root.get(orderByField))
-            );
+
 
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

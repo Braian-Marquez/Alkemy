@@ -25,7 +25,6 @@ public class MovieServiceImpl implements MovieService {
 
     private MovieMapper movieMapper;
     private MovieRepository movieRepository;
-    @Autowired
     private MovieSpecification movieSpecification;
     private CharacterMapper characterMapper;
     private CharacterService characterService;
@@ -38,7 +37,7 @@ public class MovieServiceImpl implements MovieService {
                             CharacterService characterService,
                             MovieSpecification movieSpecification,
                             CharacterRepository characterRepository) {
-        this.characterRepository=characterRepository;
+        this.characterRepository = characterRepository;
         this.movieSpecification = movieSpecification;
         this.movieMapper = movieMapper;
         this.movieRepository = movieRepository;
@@ -95,13 +94,18 @@ public class MovieServiceImpl implements MovieService {
         return dtoFull;
     }
 
-    public List<MovieDTO> findByParam(String name, String genre, String order) {
-        MovieFilterDTO movieFilter = new MovieFilterDTO(name, genre, order);
-        List<MovieEntity> entity = movieRepository.findAll(movieSpecification.getByFilters(movieFilter));
-        List<MovieDTO> dto = movieMapper.movieEntityList2DTOList(entity, true);
+    @Override
+    public List<MovieDTO> getMovieByFilters(String title, String creationDate, Long genreId, String order) {
 
-        return dto;
+        MovieFilterDTO filtersDTO = new MovieFilterDTO(title, creationDate, genreId, order);
+
+        List<MovieEntity> movies = this.movieRepository.findAll(
+                this.movieSpecification.getByFilters(filtersDTO)
+        );
+
+        return this.movieMapper.movieEntityList2DTOList(movies, true);
     }
+
 
     public MovieDTO addCharacter(Long idMovie, Long idCharacter) {
         Optional<MovieEntity> find = movieRepository.findById(idMovie);

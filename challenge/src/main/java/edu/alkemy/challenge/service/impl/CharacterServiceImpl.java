@@ -1,4 +1,5 @@
 package edu.alkemy.challenge.service.impl;
+
 import edu.alkemy.challenge.dto.CharacterBasicDTO;
 import edu.alkemy.challenge.dto.CharacterDTO;
 import edu.alkemy.challenge.dto.CharacterFilterDTO;
@@ -24,21 +25,21 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Autowired
     public CharacterServiceImpl(CharacterMapper characterMapper,
-                                CharacterRepository characterRepository) {
-
+                                CharacterRepository characterRepository, CharacterSpecification characterSpecification) {
+        this.characterSpecification = characterSpecification;
         this.characterMapper = characterMapper;
         this.characterRepository = characterRepository;
     }
 
-    public CharacterDTO save(CharacterDTO characterDTO){
+    public CharacterDTO save(CharacterDTO characterDTO) {
 
         CharacterEntity entity = characterMapper.characterDTO2Entity(characterDTO);
         CharacterEntity entitySaved = characterRepository.save(entity);
 
-        return characterMapper.characterEntity2DTO(entitySaved,false);
+        return characterMapper.characterEntity2DTO(entitySaved, false);
     }
 
-    public CharacterDTO update(Long id, CharacterDTO characterDTO){
+    public CharacterDTO update(Long id, CharacterDTO characterDTO) {
 
         Optional<CharacterEntity> entity = characterRepository.findById(id);
 
@@ -49,11 +50,11 @@ public class CharacterServiceImpl implements CharacterService {
         characterMapper.characterEntityRefreshValues(entity.get(), characterDTO);
         CharacterEntity entitySaved = characterRepository.save(entity.get());
 
-        return characterMapper.characterEntity2DTO(entitySaved,false);
+        return characterMapper.characterEntity2DTO(entitySaved, false);
 
     }
 
-    public void delete(@NonNull Long id){
+    public void delete(@NonNull Long id) {
         characterRepository.deleteById(id);
     }
 
@@ -65,23 +66,27 @@ public class CharacterServiceImpl implements CharacterService {
             throw new ParamNotFoundException("Error: Invalid character id.");
         }
 
-        return characterMapper.characterEntity2DTO(entity.get(),true);
+        return characterMapper.characterEntity2DTO(entity.get(), true);
     }
 
-    public List<CharacterBasicDTO> getAll(){
+    public List<CharacterBasicDTO> getAll() {
 
         List<CharacterEntity> entities = characterRepository.findAll();
 
         return this.characterMapper.characterEntitySet2BasicDTOList(entities);
     }
 
-    public List<CharacterDTO> findByParam(String name, Integer age, Long weight,
-                                                     Long id, List<Long> movies, String order ) {
-        CharacterFilterDTO filter = new CharacterFilterDTO(name, age, weight, id,movies, order);
-        List<CharacterEntity> entity = characterRepository.findAll(characterSpecification.getByFilters(filter));
-        List<CharacterDTO> dto = characterMapper.characterEntitySet2DTOList(entity, true);
+    @Override
+    public List<CharacterDTO> getByFilters(String name, Long age, Long weight, List<Long> movies) {
 
-        return dto;
+        CharacterFilterDTO filtersDTO = new CharacterFilterDTO(name, age, weight, movies);
+
+        List<CharacterEntity> entityList = this.characterRepository.findAll(
+                this.characterSpecification.getByFilters(filtersDTO)
+        );
+
+        return this.characterMapper.characterEntitySet2DTOList(entityList, true);
     }
+
 
 }
