@@ -23,13 +23,13 @@ public class CharacterController {
         return ResponseEntity.status(HttpStatus.CREATED).body(characterSaved);
     }
 
-    @GetMapping("/characters")
+    @GetMapping("/all")
     public ResponseEntity<List<CharacterBasicDTO>> getAll() {
         List<CharacterBasicDTO> characters = characterService.getAll();
         return ResponseEntity.ok().body(characters);
     }
 
-    @GetMapping("/{id}") /*Busqueda por id*/
+    @GetMapping("/{id}")
     public ResponseEntity<CharacterDTO> characterFullId(@PathVariable Long id) {
         CharacterDTO characterDTO = this.characterService.findById(id);
         return ResponseEntity.ok().body(characterDTO);

@@ -44,11 +44,5 @@ public class CharacterEntity {
 
     @ManyToMany(mappedBy = "characters")
     private List<MovieEntity> movies = new ArrayList<>();
-    public void addCharacter(MovieEntity movieEntity) {
-        movies.add(movieEntity);
-    }
 
-    public void removeCharacter(MovieEntity movieEntity) {
-        movies.remove(movieEntity);
-    }
 }

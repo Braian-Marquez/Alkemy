@@ -6,13 +6,10 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
-
 import java.util.Set;
-
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -44,7 +41,7 @@ public class MovieEntity {
 
     private boolean deleted = Boolean.FALSE;
 
-    @ManyToMany(cascade = {PERSIST, MERGE})
+    @ManyToMany
     @JoinTable(name = "movie_character",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "character_id")
