@@ -5,11 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
-import java.util.List;
-
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -24,7 +20,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class GenreEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id; // Integer
+    private Long id;
     private String name;
     private String image;
     private boolean deleted;
