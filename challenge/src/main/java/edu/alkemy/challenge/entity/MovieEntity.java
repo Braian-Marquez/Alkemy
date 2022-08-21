@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
@@ -48,7 +49,7 @@ public class MovieEntity {
     )
     private Set<CharacterEntity> characters = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = ALL)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "genre_id")
     private GenreEntity genre;
 

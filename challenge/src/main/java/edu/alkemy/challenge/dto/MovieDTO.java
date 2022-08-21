@@ -14,7 +14,7 @@ public class MovieDTO {
     private String title;
     private String creationDate;
     private Integer rate;
-    private List<CharacterDTO> characters;
+    private List<CharacterDTO> characters=new ArrayList<>();
     private Long genreId;
     private List<MovieDTO> movies = new ArrayList<>();
 
